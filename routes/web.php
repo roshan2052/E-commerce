@@ -17,10 +17,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function () {
-    return view('test');
-});
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('test', [App\Http\Controllers\TestController::class, 'index'])->name('test.index');
+
+Route::get('test/create', [App\Http\Controllers\TestController::class, 'create'])->name('test.create');
+
+Route::post('test', [App\Http\Controllers\TestController::class, 'store'])->name('test');
+
+Route::get('test/{id}', [App\Http\Controllers\TestController::class, 'show'])->name('test.show');
+
+Route::get('test/{id}/edit', [App\Http\Controllers\TestController::class, 'edit'])->name('test.edit');
+
+Route::put('test/{id}/update', [App\Http\Controllers\TestController::class, 'update'])->name('test.update');
+
+Route::delete('test/{id}/delete', [App\Http\Controllers\TestController::class, 'delete'])->name('test.delete');
