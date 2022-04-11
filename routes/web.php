@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,16 +25,52 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('test', [App\Http\Controllers\TestController::class, 'index'])->name('test.index');
 
-Route::get('test/create', [App\Http\Controllers\TestController::class, 'create'])->name('test.create');
+Route::middleware(['web','auth',])->group(function () {
 
-Route::post('test', [App\Http\Controllers\TestController::class, 'store'])->name('test');
+    // Test
+    Route::get('test', [App\Http\Controllers\TestController::class, 'index'])->name('test.index');
+    Route::get('test/create', [App\Http\Controllers\TestController::class, 'create'])->name('test.create');
+    Route::post('test', [App\Http\Controllers\TestController::class, 'store'])->name('test');
+    Route::get('test/{id}', [App\Http\Controllers\TestController::class, 'show'])->name('test.show');
+    Route::get('test/{id}/edit', [App\Http\Controllers\TestController::class, 'edit'])->name('test.edit');
+    Route::put('test/{id}/update', [App\Http\Controllers\TestController::class, 'update'])->name('test.update');
+    Route::delete('test/{id}/delete', [App\Http\Controllers\TestController::class, 'delete'])->name('test.delete');
 
-Route::get('test/{id}', [App\Http\Controllers\TestController::class, 'show'])->name('test.show');
+    // Category
+    Route::get('category', [CategoryController::class, 'index'])->name('category.index');
+    Route::get('category/create', [CategoryController::class, 'create'])->name('category.create');
+    Route::post('category/store', [CategoryController::class, 'store'])->name('category.store');
+    Route::get('category/{slug}', [CategoryController::class, 'show'])->name('category.show');
+    Route::get('category/{slug}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::put('category/{slug}/update', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('category/{slug}/delete', [CategoryController::class, 'delete'])->name('category.delete');
 
-Route::get('test/{id}/edit', [App\Http\Controllers\TestController::class, 'edit'])->name('test.edit');
+    // Sub Category
+    Route::get('sub-category', [SubCategoryController::class, 'index'])->name('sub_category.index');
+    Route::get('sub-category/create', [SubCategoryController::class, 'create'])->name('sub_category.create');
+    Route::post('sub-category/store', [SubCategoryController::class, 'store'])->name('sub_category.store');
+    Route::get('sub-category/{slug}', [SubCategoryController::class, 'show'])->name('sub_category.show');
+    Route::get('sub-category/{slug}/edit', [SubCategoryController::class, 'edit'])->name('sub_category.edit');
+    Route::put('sub-category/{slug}/update', [SubCategoryController::class, 'update'])->name('sub_category.update');
+    Route::delete('sub-category/{slug}/delete', [SubCategoryController::class, 'delete'])->name('sub_category.delete');
 
-Route::put('test/{id}/update', [App\Http\Controllers\TestController::class, 'update'])->name('test.update');
+    // Product
+    Route::get('product', [ProductController::class, 'index'])->name('product.index');
+    Route::get('product/create', [ProductController::class, 'create'])->name('product.create');
+    Route::post('product/store', [ProductController::class, 'store'])->name('product.store');
+    Route::get('product/{slug}', [ProductController::class, 'show'])->name('product.show');
+    Route::get('product/{slug}/edit', [ProductController::class, 'edit'])->name('product.edit');
+    Route::put('product/{slug}/update', [ProductController::class, 'update'])->name('product.update');
+    Route::delete('product/{slug}/delete', [ProductController::class, 'delete'])->name('product.delete');
 
-Route::delete('test/{id}/delete', [App\Http\Controllers\TestController::class, 'delete'])->name('test.delete');
+    // Tag
+    Route::get('tag', [TagController::class, 'index'])->name('tag.index');
+    Route::get('tag/create', [TagController::class, 'create'])->name('tag.create');
+    Route::post('tag/store', [TagController::class, 'store'])->name('tag.store');
+    Route::get('tag/{slug}', [TagController::class, 'show'])->name('tag.show');
+    Route::get('tag/{slug}/edit', [TagController::class, 'edit'])->name('tag.edit');
+    Route::put('tag/{slug}/update', [TagController::class, 'update'])->name('tag.update');
+    Route::delete('tag/{slug}/delete', [TagController::class, 'delete'])->name('tag.delete');
+
+});

@@ -36,29 +36,124 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
         with font-awesome or any other icon font library -->
-                <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+
+                <li class="nav-item {{ request()->is('home*') ? 'menu-open' : "" }}">
+                    <a href="{{ route('home') }}" class="nav-link {{ request()->is('home*') ? 'active' : "" }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Test
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item {{ request()->is('category*') ? 'menu-open' : "" }}">
+                    <a href="#" class="nav-link {{ request()->is('category*') ? 'active' : "" }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Category
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('test.index') }}" class="nav-link active">
+                            <a href="{{ route('category.index') }}" class="nav-link {{ request()->is('category') ? 'active' : "" }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>List</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('test.create') }}" class="nav-link">
+                            <a href="{{ route('category.create') }}" class="nav-link {{ request()->is('category/create') ? 'active' : "" }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Create</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item {{ request()->is('sub-category*') ? 'menu-open' : "" }}">
+                    <a href="#" class="nav-link {{ request()->is('sub-category*') ? 'active' : "" }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Sub Category
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('sub_category.index') }}" class="nav-link {{ request()->is('sub-category') ? 'active' : "" }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('sub_category.create') }}" class="nav-link {{ request()->is('sub-category/create') ? 'active' : "" }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item {{ request()->is('product*') ? 'menu-open' : "" }}">
+                    <a href="#" class="nav-link {{ request()->is('product*') ? 'active' : "" }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Product
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('product.index') }}" class="nav-link {{ request()->is('product') ? 'active' : "" }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('product.create') }}" class="nav-link {{ request()->is('product/create') ? 'active' : "" }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item {{ request()->is('tag*') ? 'menu-open' : "" }}">
+                    <a href="#" class="nav-link {{ request()->is('tag*') ? 'active' : "" }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Tag
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('tag.index') }}" class="nav-link {{ request()->is('tag') ? 'active' : "" }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('tag.create') }}" class="nav-link {{ request()->is('tag/create') ? 'active' : "" }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>
+                            Logout
+                        </p>
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                        @csrf
+                    </form>
+                </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

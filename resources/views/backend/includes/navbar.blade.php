@@ -10,15 +10,4 @@
         </li>
     </ul>
 
-    <ul class="navbar-nav ml-auto">
-        <li>
-            <div class="pull-right">
-                <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();"
-                    class="btn btn-success btn-flat">Sign Out</a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                    @csrf
-                </form>
-            </div>
-        </li>
-    </ul>
 </nav>

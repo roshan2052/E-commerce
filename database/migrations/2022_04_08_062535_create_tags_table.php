@@ -13,17 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug');
-            $table->unsignedInteger('rank');
-            $table->string('image')->nullable();
-            $table->text('short_description')->nullable();
-            $table->longText('description')->nullable();
-            $table->string('meta_title')->nullable();
-            $table->string('meta_keyword')->nullable();
-            $table->longText('meta_description')->nullable();
             $table->boolean('status')->default(0);
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
@@ -38,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('tags');
     }
 };
