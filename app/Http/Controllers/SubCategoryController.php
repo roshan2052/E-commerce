@@ -37,15 +37,11 @@ class SubCategoryController extends Controller
 
     public function store(Request $request){
 
-        // validation
         $request->validate([
             'category_id'   => 'required|integer',
-            'name'          => 'required|string|max:255',
-            'slug'          => 'required|string|max:255',
-            'rank'          => 'required|integer',
-        ],[
-            'category_id.required' => 'Please select category',
-            'name.required' => 'Please enter name'
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:sub_categories',
+            'rank' => 'required|integer|unique:sub_categories',
         ]);
 
         // Image Upload
@@ -93,9 +89,10 @@ class SubCategoryController extends Controller
 
         //validation
         $request->validate([
-            'name' => 'required',
-            'rank' => 'required',
-            'slug' => 'required',
+            'category_id'   => 'required|integer',
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255',
+            'rank' => 'required|integer',
         ]);
 
         try{

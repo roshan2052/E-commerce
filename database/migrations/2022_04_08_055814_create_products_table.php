@@ -18,7 +18,13 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories');
             $table->foreignId('sub_category_id')->constrained('sub_categories');
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug')->unique();
+            $table->string('code')->unique();
+            $table->decimal('price',12,2);
+            $table->unsignedInteger('quantity');
+            $table->unsignedInteger('stock');
+            $table->boolean('feature_key')->default(0);
+            $table->boolean('flash_key')->default(0);
             $table->text('short_description')->nullable();
             $table->longText('description')->nullable();
             $table->string('meta_title')->nullable();

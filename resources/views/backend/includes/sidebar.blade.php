@@ -142,8 +142,42 @@
                     </ul>
                 </li>
 
+                <li class="nav-item {{ request()->is('attribute*') ? 'menu-open' : "" }}">
+                    <a href="#" class="nav-link {{ request()->is('attribute*') ? 'active' : "" }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Attribute
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('attribute.index') }}" class="nav-link {{ request()->is('attribute') ? 'active' : "" }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('attribute.create') }}" class="nav-link {{ request()->is('attribute/create') ? 'active' : "" }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
                 <li class="nav-item">
-                    <a href="#" class="nav-link" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    <a href="{{ route('setting.create') }}" class="nav-link">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>
+                            Setting
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-link" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>
                             Logout

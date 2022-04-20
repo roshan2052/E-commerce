@@ -5,6 +5,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\SettingController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +21,8 @@ use App\Http\Controllers\TagController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('frontend.home');
+Route::get('product_details/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'productDetails'])->name('frontend.product_details');
 
 Auth::routes();
 
@@ -72,5 +75,20 @@ Route::middleware(['web','auth',])->group(function () {
     Route::get('tag/{slug}/edit', [TagController::class, 'edit'])->name('tag.edit');
     Route::put('tag/{slug}/update', [TagController::class, 'update'])->name('tag.update');
     Route::delete('tag/{slug}/delete', [TagController::class, 'delete'])->name('tag.delete');
+
+    // Attribute
+    Route::get('attribute', [AttributeController::class, 'index'])->name('attribute.index');
+    Route::get('attribute/create', [AttributeController::class, 'create'])->name('attribute.create');
+    Route::post('attribute/store', [AttributeController::class, 'store'])->name('attribute.store');
+    Route::get('attribute/{id}', [AttributeController::class, 'show'])->name('attribute.show');
+    Route::get('attribute/{id}/edit', [AttributeController::class, 'edit'])->name('attribute.edit');
+    Route::put('attribute/{id}/update', [AttributeController::class, 'update'])->name('attribute.update');
+    Route::delete('attribute/{id}/delete', [AttributeController::class, 'delete'])->name('attribute.delete');
+
+    // Setting
+    Route::get('setting/create', [SettingController::class, 'create'])->name('setting.create');
+    Route::post('setting/store', [SettingController::class, 'store'])->name('setting.store');
+    Route::get('setting/{id}/edit', [SettingController::class, 'edit'])->name('setting.edit');
+    Route::put('setting/{id}/update', [SettingController::class, 'update'])->name('setting.update');
 
 });

@@ -17,4 +17,8 @@ class Tag extends Model
     {
         return $this->belongsToMany(Product::class);
     }
+    
+    public function createdBy(){
+        return $this->belongsTo(User::class,'created_by');
+    }
 }

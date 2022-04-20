@@ -39,17 +39,16 @@ class TagController extends Controller
             'slug' => 'required|string|max:255',
         ]);
 
-        // try{
+        try{
             $request->request->add(['created_by' => auth()->user()->id]);
             $this->model->create($request->all());
             session()->flash('success_message','Data Inserted Successfully');
-        // }
-        // catch(\Exception $e){
-        //     session()->flash('error_message','Something Went Wrong!!');
-        // }
+        }
+        catch(\Exception $e){
+            session()->flash('error_message','Something Went Wrong!!');
+        }
 
         return redirect()->route('tag.index');
-
     }
 
     public function show($slug){
@@ -74,8 +73,8 @@ class TagController extends Controller
 
         //validation
         $request->validate([
-            'name' => 'required',
-            'slug' => 'required',
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255',
         ]);
 
         try{

@@ -19,8 +19,6 @@ class CategoryController extends Controller
 
     public function index(){
 
-        $data = [];
-
         $data['rows'] = $this->model->latest()->get();
 
         return view($this->view_path.'index',compact('data'));

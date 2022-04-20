@@ -29,3 +29,15 @@
 
     </div>
 @endsection
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $("#name").keyup(function() {
+                let Name = $(this).val();
+                let slug = Name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+                $("#slug").val(slug);
+            });
+        });
+    </script>
+@endsection
