@@ -25,6 +25,7 @@ return new class extends Migration
             $table->unsignedInteger('stock');
             $table->boolean('feature_key')->default(0);
             $table->boolean('flash_key')->default(0);
+            $table->boolean('image')->nullable();
             $table->text('short_description')->nullable();
             $table->longText('description')->nullable();
             $table->string('meta_title')->nullable();

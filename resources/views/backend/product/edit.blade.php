@@ -2,9 +2,8 @@
 
 @section('title','Home')
 
-
 @section('css')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('dist/css/select2.min.css') }}" rel="stylesheet" />
 @endsection
 
 @section('content')
@@ -33,14 +32,20 @@
 @endsection
 
 @section('js')
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.select2').select2({
-            placeholder: "Select a Tag",
-            allowClear: true
-        });
-    });
-</script>
+    <script src="{{ asset('dist/js/select2.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#tag_id').select2({
+                placeholder: "Please select tag",
+                allowClear: true
+            });
 
+            $('#attribute_id').select2({
+                placeholder: "Please select attribute",
+                allowClear: true
+            });
+        });
+    </script>
 @endsection
+
+

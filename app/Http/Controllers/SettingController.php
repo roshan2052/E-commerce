@@ -36,7 +36,16 @@ class SettingController extends Controller
             'address' => 'required|string|max:255',
             'email' => 'required|string|max:255|email',
             'phone' => 'required|integer',
+            'logo_image' => 'nullable|image|max:2048',
         ]);
+
+        // Image Upload
+        if ($request->hasFile('logo_image')) {
+            $image = $request->file('logo_image');
+            $image_name = time().'_'.$image->getClientOriginalName();
+            $image->move('images/setting', $image_name);
+            $request->request->add(['logo' => $image_name]);
+        }
 
         try{
             $request->request->add(['created_by' => auth()->user()->id]);
@@ -67,7 +76,16 @@ class SettingController extends Controller
             'address' => 'required|string|max:255',
             'email' => 'required|string|max:255|email',
             'phone' => 'required|integer',
+            'logo_image' => 'nullable|image|max:2048',
         ]);
+
+        // Image Upload
+        if ($request->hasFile('logo_image')) {
+            $image = $request->file('logo_image');
+            $image_name = time().'_'.$image->getClientOriginalName();
+            $image->move('images/setting', $image_name);
+            $request->request->add(['logo' => $image_name]);
+        }
 
         try{
             $data['row'] = $this->model->where('id',$id)->first();

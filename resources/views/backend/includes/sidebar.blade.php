@@ -48,7 +48,7 @@
 
                 <li class="nav-item {{ request()->is('category*') ? 'menu-open' : "" }}">
                     <a href="#" class="nav-link {{ request()->is('category*') ? 'active' : "" }}">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="nav-icon fa fa-tasks"></i>
                         <p>
                             Category
                             <i class="right fas fa-angle-left"></i>
@@ -120,7 +120,7 @@
 
                 <li class="nav-item {{ request()->is('tag*') ? 'menu-open' : "" }}">
                     <a href="#" class="nav-link {{ request()->is('tag*') ? 'active' : "" }}">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="nav-icon fa fa-tags"></i>
                         <p>
                             Tag
                             <i class="right fas fa-angle-left"></i>
@@ -169,7 +169,7 @@
 
                 <li class="nav-item">
                     <a href="{{ route('setting.create') }}" class="nav-link">
-                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <i class="nav-icon fa fa-cog"></i>
                         <p>
                             Setting
                         </p>

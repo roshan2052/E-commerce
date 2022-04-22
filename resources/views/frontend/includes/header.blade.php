@@ -6,7 +6,7 @@
                 <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3">
                     <div class="logo">
                         <a href="index.html">
-                            <img src="images/logo/logo.png" alt="logo">
+                            <img src="{{ asset('frontend/images/logo/logo.png') }}" alt="logo">
                         </a>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                                             <li>
                                                 <div class="mega-item-img">
                                                     <a href="shop.html">
-                                                        <img src="images/feature-img/3.png" alt="">
+                                                        <img src="{{ asset('frontend/images/feature-img/3.png') }}" alt="">
                                                     </a>
                                                 </div>
                                             </li>

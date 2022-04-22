@@ -35,14 +35,24 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('dist/js/select2.min.js') }}"></script>
-<script>
-    $(document).ready(function() {
-        $('.select2').select2({
-            placeholder: "Select a Tag",
-            allowClear: true
-        });
-    });
-</script>
+    <script src="{{ asset('dist/js/select2.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#tag_id').select2({
+                placeholder: "Please select tag",
+                allowClear: true
+            });
 
+            $('#attribute_id').select2({
+                placeholder: "Please select attribute",
+                allowClear: true
+            });
+
+            $("#name").keyup(function() {
+                let Name = $(this).val();
+                let slug = Name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+                $("#slug").val(slug);
+            });
+        });
+    </script>
 @endsection

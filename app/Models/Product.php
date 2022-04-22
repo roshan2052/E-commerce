@@ -10,7 +10,7 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_id','sub_category_id','name','slug','code','price','stock','quantity','feature_key','flash_key','short_description','description','meta_title','meta_keyword','meta_description','status','created_by','updated_by'
+        'category_id','sub_category_id','name','slug','code','price','stock','quantity','feature_key','flash_key','image','short_description','description','meta_title','meta_keyword','meta_description','status','created_by','updated_by'
     ];
 
     public function category(){
@@ -24,5 +24,10 @@ class Product extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class,'product_attribute');
     }
 }
