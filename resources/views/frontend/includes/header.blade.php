@@ -5,8 +5,12 @@
             <div class="row">
                 <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3">
                     <div class="logo">
-                        <a href="index.html">
-                            <img src="{{ asset('frontend/images/logo/logo.png') }}" alt="logo">
+                        <a href="#">
+                        @if (isset($data['setting']->logo))
+                            <img src="{{ asset('images/setting/'.$data['setting']->logo) }}" alt="footer logo" width="100px" height="100px">
+                        @else
+                            <img src="{{ asset('frontend/images/logo/logo.png') }}" alt="footer logo">
+                        @endif
                         </a>
                     </div>
                 </div>
@@ -14,7 +18,7 @@
                 <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
                     <nav class="mainmenu__nav hidden-xs hidden-sm">
                         <ul class="main__menu">
-                            <li class="drop"><a href="index.html">Home</a></li>
+                            <li class="drop"><a href="/">Home</a></li>
                             <li class="drop"><a href="portfolio-card-box-2.html">portfolio</a>
                                 <ul class="dropdown">
                                     <li><a href="portfolio-card-box-2.html">portfolio</a></li>
