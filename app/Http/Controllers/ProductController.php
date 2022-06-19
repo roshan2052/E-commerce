@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductAttributeDetail;
 use App\Models\SubCategory;
 use App\Models\Tag;
 use Exception;
@@ -36,7 +37,7 @@ class ProductController extends Controller
 
         $data = [];
         $data['categories'] = Category::pluck('name','id');
-        $data['sub_categories'] = SubCategory::pluck('name','id');
+        $data['sub_categories'] = [];
         $data['tags'] = Tag::pluck('name','id');
         $data['attributes'] = Attribute::pluck('name','id');
 
@@ -49,15 +50,21 @@ class ProductController extends Controller
         $request->validate([
             'category_id'       => 'required|integer',
             'sub_category_id'   => 'required|integer',
-            'slug'              => 'required|string|max:255',
+            'slug'              => 'required|string|max:191|unique:products,slug',
             'name'              => 'required|string|max:255',
             'code'              => 'required',
             'price'             => 'required|numeric',
             'stock'             => 'required|integer',
             'quantity'          => 'required|integer',
+            'attribute_id'      => 'required|array',
+            'attribute_id.*'    => 'required',
+            'attribute_value'   => 'required|array',
+            'attribute_value.*' => 'required',
         ],[
             'category_id.required'  => 'Please select category',
-            'name.required'         => 'Please enter name'
+            'name.required'         => 'Please enter name',
+            'attribute_id.*.required'   => 'Please select attribute',
+            'attribute_value.*.required'=> 'Please enter attribute value',
         ]);
 
         // Image Upload
@@ -78,14 +85,23 @@ class ProductController extends Controller
             $request->request->add(['image' => $image_name]);
         }
 
-        dd('ok');
-
         try{
             DB::beginTransaction();
             $request->request->add(['created_by' => auth()->user()->id]);
+
             $product = $this->model->create($request->all());
+
             $product->tags()->attach($request['tag_id']);
-            $product->attributes()->attach($request['attribute_id']);
+
+            // to store product attribute detail
+            foreach($request['attribute_id'] as $index => $attribute_id){
+                ProductAttributeDetail::create([
+                    'product_id'        => $product->id,
+                    'attribute_id'      => $attribute_id,
+                    'value'             => $request['attribute_value'][$index]
+                ]);
+            }
+
             DB::commit();
             session()->flash('success_message','Data Inserted Successfully');
         }
@@ -94,7 +110,7 @@ class ProductController extends Controller
             session()->flash('error_message','Something Went Wrong!!');
         }
 
-        return redirect()->route('product.index');
+        return response()->json('success');
     }
 
     public function show($slug){
@@ -109,13 +125,12 @@ class ProductController extends Controller
     public function edit($slug){
 
         $data = [];
+        $data['row'] = $this->model->where('slug',$slug)->first();
 
         $data['categories'] = Category::pluck('name','id');
-        $data['sub_categories'] = SubCategory::pluck('name','id');
+        $data['sub_categories'] = $data['row']->category->subCategories->pluck('name','id');
         $data['tags'] = Tag::pluck('name','id');
         $data['attributes'] = Attribute::pluck('name','id');
-
-        $data['row'] = $this->model->where('slug',$slug)->first();
 
         return view('backend.product.edit',compact('data'));
     }
@@ -126,23 +141,52 @@ class ProductController extends Controller
         $request->validate([
             'category_id'       => 'required|integer',
             'sub_category_id'   => 'required|integer',
-            'slug'              => 'required|string|max:255',
+            'slug'              => 'required|string|max:191',
             'name'              => 'required|string|max:255',
             'code'              => 'required',
             'price'             => 'required|numeric',
             'stock'             => 'required|integer',
             'quantity'          => 'required|integer',
+            'attribute_id'      => 'required|array',
+            'attribute_id.*'    => 'required',
+            'attribute_value'   => 'required|array',
+            'attribute_value.*' => 'required',
         ],[
-            'category_id.required'  => 'Please select category',
-            'name.required'         => 'Please enter name'
+            'category_id.required'      => 'Please select category',
+            'name.required'             => 'Please enter name',
+            'attribute_id.*.required'   => 'Please select attribute',
+            'attribute_value.*.required'=> 'Please enter attribute value',
         ]);
 
         try{
             DB::beginTransaction();
             $data['row'] = $this->model->where('slug',$slug)->first();
             $data['row']->update($request->all());
+
             $data['row']->tags()->sync($request['tag_id']);
-            $data['row']->attributes()->sync($request['attribute_id']);
+
+            $data['row']->productAttributeDetails()
+                ->whereNotIn('id',$request['product_attribute_detail_id'])
+                ->delete();
+
+            $product_attribute_details = ProductAttributeDetail::find($request['product_attribute_detail_id']);
+
+            foreach($request['attribute_id'] as $index => $attribute_id){
+                $product_attribute_detail = $product_attribute_details[$index] ?? false;
+                if($product_attribute_detail){
+                    $product_attribute_detail->update([
+                        'value'             => $request['attribute_value'][$index],
+                        'updated_by'        => auth()->user()->id
+                    ]);
+                }
+                else{
+                    ProductAttributeDetail::create([
+                        'product_id'        => $data['row']->id,
+                        'attribute_id'      => $attribute_id,
+                        'value'             => $request['attribute_value'][$index]
+                    ]);
+                }
+            }
             DB::commit();
             session()->flash('success_message','Data Updated Successfully');
         }
@@ -151,7 +195,7 @@ class ProductController extends Controller
             session()->flash('error_message','Something Went Wrong!!');
         }
 
-        return redirect()->route('product.index');
+        return response()->json('success');
 
     }
 
@@ -159,11 +203,18 @@ class ProductController extends Controller
 
         $data['row'] = $this->model->where('slug',$slug)->first();
 
+        $data['row']->tags()->detach();
+        $data['row']->productAttributeDetails()->delete();
         $data['row']->delete();
 
         session()->flash('success_message','Data Deleted Successfully');
 
         return redirect()->route('product.index');
 
+    }
+
+    public function getSubCategory()
+    {
+        return SubCategory::where('category_id', request('category_id'))->pluck('name', 'id');
     }
 }

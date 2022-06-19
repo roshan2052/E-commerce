@@ -10,7 +10,7 @@ class Attribute extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','status','created_by','updated_by'
+        'name','key','status','created_by','updated_by'
     ];
 
     public function createdBy(){

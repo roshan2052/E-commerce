@@ -8,6 +8,14 @@
         </div>
     </div>
 
+    <div class="form-group row mb-3">
+        {{ Form::label('key', 'Key *', ['class' => 'col-3 col-form-label']) }}
+        <div class="col-9">
+            {{ Form::text('key', null, ['class' => 'form-control', 'id' => 'key', 'placeholder' => 'key']) }}
+            @include('backend.includes.validation_error_message',['fieldname' => 'key'])
+        </div>
+    </div>
+
     <div class="form-group row">
         <div class="col-3">
             {!! Form::label('status', 'Status',["class" => "radiostatus"]) !!}

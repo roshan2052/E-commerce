@@ -36,6 +36,7 @@ class AttributeController extends Controller
         // validation
         $request->validate([
             'name' => 'required|string|max:255',
+            'key'  => 'required|string|max:191|unique:attributes,key',
         ]);
 
         try{

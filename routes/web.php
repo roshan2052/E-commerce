@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\SettingController;
 
 
@@ -21,15 +22,12 @@ use App\Http\Controllers\SettingController;
 |
 */
 
-Route::get('/', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('frontend.home');
-Route::get('product_details/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'productDetails'])->name('frontend.product_details');
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('is_admin','auth');
 
 
-Route::middleware(['web','auth',])->group(function () {
+Route::middleware(['web','auth','is_admin'])->prefix('backend/')->group(function () {
 
     // Test
     Route::get('test', [App\Http\Controllers\TestController::class, 'index'])->name('test.index');
@@ -66,7 +64,7 @@ Route::middleware(['web','auth',])->group(function () {
     Route::get('product/{slug}/edit', [ProductController::class, 'edit'])->name('product.edit');
     Route::put('product/{slug}/update', [ProductController::class, 'update'])->name('product.update');
     Route::delete('product/{slug}/delete', [ProductController::class, 'delete'])->name('product.delete');
-
+    Route::post('product/get-sub-category',[ProductController::class,'getSubCategory'])->name('product.get_sub_category');
     // Tag
     Route::get('tag', [TagController::class, 'index'])->name('tag.index');
     Route::get('tag/create', [TagController::class, 'create'])->name('tag.create');
@@ -92,3 +90,8 @@ Route::middleware(['web','auth',])->group(function () {
     Route::put('setting/{id}/update', [SettingController::class, 'update'])->name('setting.update');
 
 });
+
+Route::get('/', [HomeController::class, 'index'])->name('frontend.index');
+Route::post('product/add-to-cart', [HomeController::class, 'addToCart'])->name('product.add_to_cart')->middleware('auth');
+Route::get('product/cart', [HomeController::class, 'cart'])->name('product.cart')->middleware('auth');
+Route::get('product/{slug}', [HomeController::class, 'productDetails'])->name('product_details');

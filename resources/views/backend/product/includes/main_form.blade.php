@@ -96,14 +96,6 @@
         </div>
     </div>
 
-    <div class="form-group row mb-3">
-        {{ Form::label('attribute_id', 'Attribute *', ['class' => 'col-3 col-form-label']) }}
-        <div class="col-9">
-            {{ Form::select('attribute_id[]',$data['attributes'], isset($data['row']) ? $data['row']->attributes->pluck('id') : null, ['class' => 'form-control select2', 'id' => 'attribute_id', 'multiple' => true]) }}
-            @include('backend.includes.validation_error_message',['fieldname' => 'attribute_id'])
-        </div>
-    </div>
-
     <div class="form-group row">
         <div class="col-3">
             {!! Form::label('status', 'Status',["class" => "radiostatus"]) !!}
@@ -116,6 +108,47 @@
         </div>
     </div>
 
+    <table class="table table-striped table-bordered" id="attribute_wrapper">
+        <tr>
+            <th>Attribute</th>
+            <th>Value</th>
+            <th>Action</th>
+        </tr>
+
+        @if(isset($data['row']))
+            @foreach($data['row']->productAttributeDetails as $product_attribute_detail)
+                <tr>
+                    <td>
+                        {!! Form::select('attribute_id[]',$data['attributes'],$product_attribute_detail->attribute_id,['class' => 'form-control','placeholder' => "Select Attribute"]) !!}
+                        @include('backend.includes.validation_error_message',['fieldname' => 'attribute_id.*'])
+                    </td>
+                    <td>
+                        {{ Form::text('attribute_value[]', $product_attribute_detail->value, ['class' => 'form-control', 'id' => 'stock', 'placeholder' => 'Enter Attribute Value']) }}
+                    <td>
+                        <a class="btn btn-block btn-danger sa-warning remove_attribute"><i class="fa fa-trash"></i></a>
+                    </td>
+                    {{ Form::hidden('product_attribute_detail_id[]', $product_attribute_detail->id) }}
+                </tr>
+            @endforeach
+        @else
+            <tr>
+                <td>
+                    {!! Form::select('attribute_id[]',$data['attributes'],null,['class' => 'form-control','placeholder' => "Select Attribute"]) !!}
+                    @include('backend.includes.validation_error_message',['fieldname' => 'attribute_id.*'])
+                </td>
+                <td>
+                    {{ Form::text('attribute_value[]',null, ['class' => 'form-control', 'id' => 'stock', 'placeholder' => 'Enter Attribute Value']) }}
+                <td>
+                    <a class="btn btn-block btn-danger sa-warning remove_attribute"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+        @endif
+    </table>
+
+    <button class="btn btn-info" type="button" id="addMoreAttribute" style="margin-bottom: 20px">
+        <i class="fa fa-plus"></i>
+        Add
+    </button>
 </div>
 
 <div class="card-footer">

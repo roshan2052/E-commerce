@@ -4,6 +4,11 @@
 
 @section('css')
     <link href="{{ asset('dist/css/select2.min.css') }}" rel="stylesheet" />
+    <style>
+        .select2-selection__choice{
+            background-color : #1c21ccd0 !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -17,7 +22,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        {{ Form::model($data['row'], ['route' => ['product.update',  $data['row']->slug],'method' => 'put', 'files' => true]) }}
+        {{ Form::model($data['row'], ['route' => ['product.update',  $data['row']->slug],'method' => 'put', 'files' => true, 'id' => 'main_form']) }}
 
             @include('backend.product.includes.main_form')
 
@@ -32,20 +37,7 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset('dist/js/select2.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $('#tag_id').select2({
-                placeholder: "Please select tag",
-                allowClear: true
-            });
-
-            $('#attribute_id').select2({
-                placeholder: "Please select attribute",
-                allowClear: true
-            });
-        });
-    </script>
+    @include('backend.product.includes.script')
 @endsection
 
 

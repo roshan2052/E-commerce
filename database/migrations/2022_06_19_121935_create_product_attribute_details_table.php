@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('attributes', function (Blueprint $table) {
+        Schema::create('product_attribute_details', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('key');
-            $table->boolean('status')->default(0);
-            $table->foreignId('created_by')->constrained('users');
-            $table->foreignId('updated_by')->nullable()->constrained('users');
+            $table->foreignId('product_id')->constrained();
+            $table->foreignId('attribute_id')->constrained();
+            $table->string('value');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attributes');
+        Schema::dropIfExists('product_attribute_details');
     }
 };

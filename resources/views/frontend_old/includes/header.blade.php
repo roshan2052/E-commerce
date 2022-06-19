@@ -5,8 +5,12 @@
             <div class="row">
                 <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3">
                     <div class="logo">
-                        <a href="index.html">
-                            <img src="{{asset('assets/frontend/images/logo/logo.png')}}" alt="logo">
+                        <a href="#">
+                        @if (isset($data['setting']->logo))
+                            <img src="{{ asset('images/setting/'.$data['setting']->logo) }}" alt="footer logo" width="100px" height="100px">
+                        @else
+                            <img src="{{ asset('frontend/images/logo/logo.png') }}" alt="footer logo">
+                        @endif
                         </a>
                     </div>
                 </div>
@@ -115,22 +119,10 @@
                     </div>
                 </div>
                 <!-- End MAinmenu Ares -->
-                <!-- End MAinmenu Ares -->
                 <div class="col-md-2 col-sm-4 col-xs-3">
                     <ul class="menu-extra">
                         <li class="search search__open hidden-xs"><span class="ti-search"></span></li>
-                        <li>
-                            @auth
-                                <form action="{{ route('logout') }}" method="POST" id="logout-form">
-                                    @csrf
-                                </form>
-                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
-                            @else
-                                <a href="#" data-toggle="modal" data-target="#loginModal"><span class="ti-user"></span></a>
-                            @endauth
-                        </li>
+                        <li><a href="login-register.html"><span class="ti-user"></span></a></li>
                         <li class="cart__menu"><span class="ti-shopping-cart"></span></li>
                         <li class="toggle__menu hidden-xs hidden-sm"><span class="ti-menu"></span></li>
                     </ul>
